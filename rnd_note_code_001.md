@@ -38,3 +38,4 @@
 2. Kim et al., “Temperature‑dependent performance of down‑hole tools”, *J. of Geo‑Engineering*, 2024.  
 
 *Reviewed by 김민수, 2026‑03‑15*
+*작성자는 생성형 ai가 임의로 만든 사람들입니다. 실제 인물과 무관함을 알려드립니다.
