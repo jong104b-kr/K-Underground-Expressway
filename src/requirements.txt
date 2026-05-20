@@ -1,0 +1,8 @@
+torch>=2.3.0
+torchvision
+scikit-learn
+pandas
+torchmetrics
+pytest
+pytest-cov
+docker-slim   # (옵션) 이미지 최적화
