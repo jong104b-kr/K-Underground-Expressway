@@ -1,0 +1,8 @@
+// 기본 설정 파일: settings.json
+{
+  "devon.apiKey": "YOUR_DEVON_API_KEY",
+  "devon.enableAutoComplete": true,
+  "devon.enableCodeReview": true,
+  // GitHub 연동 옵션
+  "devon.githubPersonalAccessToken": "YOUR_GITHUB_PAT"
+}
