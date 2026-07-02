@@ -1,0 +1,47 @@
+# .github/workflows/ci.yml (예시)
+name: CI – Hybrid Mon
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    services:
+      kafka:
+        image: confluentinc/cp-kafka:latest
+        env:
+          KAFKA_BROKER: localhost:9092
+          KAFKA_ZOOKEEPER: localhost:2181
+        ports: [ "9092:9092" ]
+        options: >-
+          --health-cmd "nc -z localhost 9092"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: |
+          pip install -r requirements.txt
+      - name: Unit test
+        run: pytest tests/ -v --cov=src --cov-report=xml
+      - name: SonarCloud analysis
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: \${{ secrets.SONAR_TOKEN }}
+      - name: Build Docker image
+        run: |
+          docker build -t \${{ secrets.DOCKER_REPO }}/vertical-hybrid:\${{ github.sha }} .
+      - name: Push image (dev stage)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          docker push \${{ secrets.DOCKER_REPO }}/vertical-hybrid:\${{ github.sha }}
